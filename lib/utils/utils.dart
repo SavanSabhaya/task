@@ -6,7 +6,7 @@ import 'package:task/common/widgets/squircle.dart';
 void removeFocus() {
   WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
 }
-
+/* 
 Widget getNetworkImageView(
   String imageURL, {
   double? height,
@@ -23,17 +23,4 @@ Widget getNetworkImageView(
       width: width ?? 100.w,
     ),
   );
-}
-
-
-// Widget SquricleImage(BuildContext context, double height, double width) {
-//   return Container(
-//     height: 120,
-//     width: 120,
-//     child: Material(
-//       clipBehavior: Clip.antiAlias,
-//       shape: SquircleBorder(),
-//       child: Image.network('https://picsum.photos/200/300', fit: BoxFit.fill),
-//     ),
-//   );
-// }
+} */

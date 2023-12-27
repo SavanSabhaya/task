@@ -9,6 +9,4 @@ void setup() async {
   getIt.registerLazySingleton<SharePref>(() => SharePref().init());
 
   getIt.registerLazySingleton<DioClient>(() => DioClient().init());
-
-  // getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(dioClient: getIt()));
 }

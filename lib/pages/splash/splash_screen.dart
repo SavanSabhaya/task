@@ -18,37 +18,26 @@ class SplashScreen extends StatelessWidget {
         body: BlocListener<SplashBloc, SplashState>(
             listener: (context, state) {
               if (state.status == LoadStatus.success) {
-                if (_handleLocationPermission == true) {
-
-                  // Navigator.popAndPushNamed(context, routeDashboard);
-                }
-                Navigator.popAndPushNamed(context, routeScanQRCode);
-                // Navigator.popAndPushNamed(context, routeLogin);
+                Navigator.popAndPushNamed(context, routeLogin);
               }
             },
             child: Stack(
               fit: StackFit.expand,
               children: [
-                Image.asset(ImageConstants.imgSplash, fit: BoxFit.cover),
+                // Image.asset(ImageConstants.imgSplash, fit: BoxFit.cover),
                 Align(
                     alignment: Alignment.center,
                     child: Text(
                       "Logo",
-                      style: AppThemeState().textStyleBold(ColorConstants.blackColor, fontSize: FontConstants.font_26),
+                      style: AppThemeState().textStyleBold(
+                          ColorConstants.blackColor,
+                          fontSize: FontConstants.font_26),
                     )),
               ],
             )));
   }
 }
 
-Future<bool> _handleLocationPermission() async {
-  var status = await Permission.location.request();
-  if (status != PermissionStatus.granted) {
-    openAppSettings();
-    return false;
-  }
-  return true;
-}
 
 /*class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

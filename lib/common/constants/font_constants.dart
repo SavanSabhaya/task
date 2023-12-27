@@ -17,17 +17,10 @@ class FontConstants {
   static const double font_32 = 32.0;
 }
 
-class FontWeightConstants{
+class FontWeightConstants {
   static const FontWeight medium = FontWeight.w500;
   static const FontWeight regular = FontWeight.w400;
   static const FontWeight semiBold = FontWeight.w600;
   static const FontWeight bold = FontWeight.w700;
   static const FontWeight extraBold = FontWeight.w800;
 }
-
-/*
-class FontFamilyConstants{
-  static const String cabin = "Cabin";
-  static const String roboto = "Roboto";
-  static const String barlow = "Barlow";
-}*/
