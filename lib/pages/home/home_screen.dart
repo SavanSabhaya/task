@@ -12,10 +12,26 @@ import 'package:task/reponseModel/product_model.dart';
 import 'package:task/utils/CustomSnackBar.dart';
 import 'package:task/utils/routes.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   ProductListModel? productListModel;
+  List<Data> _filteredItems = [];
+  TextEditingController searchController = TextEditingController();
+
+  // void _filterItems(String query) {
+  //   query = query.toLowerCase();
+  //   setState(() {
+  //     _filteredItems = productListModel!.data!
+  //         .where((item) => item.toLowerCase().contains(query))
+  //         .toList();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +86,7 @@ class HomeScreen extends StatelessWidget {
           ),
           SizedBox(height: 10),
           TextField(
+            controller: searchController,
             decoration: InputDecoration(
               filled: true,
               fillColor: Color(0xFFEDECF5),
