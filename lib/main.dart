@@ -19,11 +19,12 @@ final sl = GetIt.instance;
 final GlobalKey<NavigatorState> navState = GlobalKey<NavigatorState>();
 
 void main(main) {
-  //runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(MyApp());
 
   configLoading();
   setup();
-  runApp(const MyApp());
   Bloc.observer = AppBlocObserver();
 }
 
@@ -37,20 +38,22 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
       SystemUiOverlay.top,
       SystemUiOverlay.bottom,
     ]);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: const Color(0x66005975).withOpacity(0.15),
-        statusBarBrightness: Platform.isAndroid ? Brightness.light : Brightness.dark,
-        statusBarIconBrightness: Platform.isAndroid ? Brightness.dark : Brightness.dark));
+        statusBarBrightness:
+            Platform.isAndroid ? Brightness.light : Brightness.dark,
+        statusBarIconBrightness:
+            Platform.isAndroid ? Brightness.dark : Brightness.dark));
 
     return MultiBlocProvider(
       providers: [
         BlocProvider<ConnectionCheckerCubit>(
-          create: (_) => ConnectionCheckerCubit(internetConnectionChecker: InternetConnectionChecker()),
+          create: (_) => ConnectionCheckerCubit(
+              internetConnectionChecker: InternetConnectionChecker()),
         ),
         BlocProvider<InternetCubit>(
           create: (context) => InternetCubit(connectivity: Connectivity()),
@@ -73,7 +76,8 @@ class MyAppState extends State<MyApp> {
                 initialRoute: routeLogin,
                 onGenerateRoute: Routes.onGenerateRoute,
                 showPerformanceOverlay: false,
-                scrollBehavior: const ScrollBehavior().copyWith(scrollbars: false),
+                scrollBehavior:
+                    const ScrollBehavior().copyWith(scrollbars: false),
                 builder: (context, widget) {
                   widget = WrapScreenUtils(child: widget ?? const Offstage());
                   widget = EasyLoading.init()(context, widget);

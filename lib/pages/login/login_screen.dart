@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task/common/constants/color_constants.dart';
 import 'package:task/common/constants/font_constants.dart';
@@ -42,7 +43,23 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     emailController.text = "bhavik.patel@iottive.com";
     passwordController.text = 'Bhavik123#';
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // Reset the device orientation when the page is disposed
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ]);
+    super.dispose();
   }
 
   @override
@@ -51,7 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.status == LoadStatus.validationError) {
-          Navigator.pushNamed(context, routeHome);
           showErrorSnackBar(context, state.message);
         } else if (state.status == LoadStatus.success) {
           showSuccessSnackBar(context, state.message);
@@ -60,6 +76,10 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       },
       builder: (context, state) {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown,
+        ]);
         return Scaffold(
           body: Container(
             decoration: BoxDecoration(
@@ -113,8 +133,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 40.0),
                       ElevatedButton(
                         onPressed: () {
-                          context.read<LoginBloc>().add(ValidateEvent(
-                              emailController.text, passwordController.text));
+                          // context.read<LoginBloc>().add(ValidateEvent(
+                          //     emailController.text, passwordController.text));
+                          Navigator.pushNamed(context, routeHome);
                         },
                         style: ElevatedButton.styleFrom(
                           primary: ColorConstants.primaryColor,
