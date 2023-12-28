@@ -34,23 +34,6 @@ const String agreeTP = "By signing up, you agree to our Terms & Conditions and P
 const String signUp = "Sign Up";
 const String alreadyOnPlatform = "Already On Platform? ";
 
-///Forgot Password Screen String
-const String labelForgetPassword = "Forget Password";
-const String labelSendLink = "Send Link";
-const String labelEnterRegisteredEmail = "Please Enter Your Registered Email ID \nand We will Send you an OTP";
-
-///Reset Password Screen String
-const String labelResetPassword = "Reset Password";
-const String labelSavePassword = "Save Password";
-const String labelPleaseEnterNewPasswordReset = "Please Enter Your New Password \nTo Reset It";
-
-///Paring With Controller
-const String labelPairController = "Pair Controller";
-const String labelFetchingData = "Fetching Data..";
-
-///Home
-const String labelControllerZ = "Controller Z";
-const String labelScheduledPrograms = "Scheduled Programs";
 
 ///Zone
 const String labelSprinklingZone = "Sprinkling Zone";
@@ -68,12 +51,4 @@ const String invalidEmailError = "Please enter valid Email ID.";
 const String emptyPasswordError = "Please enter Password.";
 const String invalidValidError = "Please enter valid Password.";
 
-///Location BottomSheet
-const String locationAccess = "Location Access";
-const String locationAccessDetails = "Lorem Ipsum Is Simply Dummy Text Of The Ipsum Is Simply Dummy Text.";
-const String notNow = "Not Now";
-const String allow = "Allow";
 
-///Connect
-const String enterSSID = "Please enter SSID";
-const String enterPassword = "Please enter Password";

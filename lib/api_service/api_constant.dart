@@ -1,11 +1,11 @@
 class ApiConstant {
-  static const baseUrl = 'http://192.168.1.157:1157/api/v1/';
+  static const baseUrl = 'https://portal-qa.ebest-iot.com/VendingAppApi/';
 
-  static const baseSocketUrl = '192.168.4.1';
   static const baseSocketPort = 80;
 
   ///AUTH
-  static const login = 'login';
+  static const login = 'loginV1';
+  static const orderHistory='orderHistory';
 }
 
 class Constants {
@@ -17,17 +17,4 @@ class Constants {
   static const deviceId = '1234';
 }
 
-class MqttConstant {
-  // static const baseDeviceMqttUrl = 'mqtt://mqtt.eclipseprojects.io';
-  // static const baseMqttUrl = 'broker.hivemq.com';
-  // static const baseMqttUrl = 'mqtt.eclipseprojects.io';
-  static const baseMqttUrlForJson = 'mqtts://mqtt.soildrops.com';
 
-  // static const baseMqttUrlForJson = 'mqtt://3.216.169.117';
-  // static const baseMqttUrl = '3.216.169.117';
-  static const baseMqttUrl = 'mqtt.soildrops.com';
-
-  // static const baseMqttUrl = 'broker.hivemq.com';
-  // static const baseMqttPort = 1883;
-  static const baseMqttPort = 8443;
-}

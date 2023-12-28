@@ -22,8 +22,8 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: TextStyle(color: Colors.grey),
-        prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon,prefixIconColor: ColorConstants.primaryColor,
+        suffixIcon: suffixIcon,suffixIconColor: ColorConstants.primaryColor,
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: ColorConstants.primaryColor, width: 2),
         ),

@@ -7,17 +7,25 @@ import 'package:task/common/enums/loading_status.dart';
 import 'package:task/common/widgets/common_textformfield.dart';
 import 'package:task/pages/login/bloc/login_bloc.dart';
 import 'package:task/utils/CustomSnackBar.dart';
+import 'package:task/utils/logger_util.dart';
 import 'package:task/utils/routes.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
 
   FocusNode emailFocusNode = FocusNode();
+
   FocusNode passwordFocusNode = FocusNode();
 
   void login() {
@@ -31,13 +39,24 @@ class LoginScreen extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    emailController.text = "bhavik.patel@iottive.com";
+    passwordController.text = 'Bhavik123#';
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final loginBloc = BlocProvider.of<LoginBloc>(context);
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.status == LoadStatus.validationError) {
+          Navigator.pushNamed(context, routeHome);
           showErrorSnackBar(context, state.message);
         } else if (state.status == LoadStatus.success) {
-          Navigator.popAndPushNamed(context, '');
+          showSuccessSnackBar(context, state.message);
+          Navigator.pushNamed(context, routeHome);
+          logger.d('get reponse==>${state.loginModel?.authToken}');
         }
       },
       builder: (context, state) {
@@ -52,7 +71,7 @@ class LoginScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   SizedBox(
                     height: 150,
@@ -83,24 +102,22 @@ class LoginScreen extends StatelessWidget {
                         prefixIcon: Icon(Icons.mail),
                       ),
                       SizedBox(height: 20.0),
-
                       CustomTextField(
                         labelText: 'Enter password',
-                        controller: emailController,
+                        controller: passwordController,
                         prefixIcon: Icon(Icons.password),
                         suffixIcon: state.isObscureText
                             ? Icon(Icons.remove_red_eye_outlined)
                             : Icon(Icons.remove_red_eye_outlined),
                       ),
-                      SizedBox(height: 40.0), // Add spacing
-
+                      SizedBox(height: 40.0),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, routeHome);
+                          context.read<LoginBloc>().add(ValidateEvent(
+                              emailController.text, passwordController.text));
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: ColorConstants
-                              .primaryColor, // Change the background color here
+                          primary: ColorConstants.primaryColor,
                         ),
                         child: Text(
                           'Log In',

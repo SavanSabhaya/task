@@ -5,11 +5,13 @@ class LoginState extends Equatable {
     this.message = '',
     this.isObscureText = true,
     this.status = LoadStatus.initial,
+    this.loginModel,
   });
 
   final String message;
   final LoadStatus status;
   final bool isObscureText;
+  final LoginModel? loginModel;
 
   LoginState copyWith({
     LoadStatus? status,
@@ -17,11 +19,13 @@ class LoginState extends Equatable {
     String? password,
     String? message,
     bool? isObscureText,
+    LoginModel? loginModel
   }) {
     return LoginState(
       status: status ?? this.status,
       message: message ?? this.message,
       isObscureText: isObscureText ?? this.isObscureText,
+      loginModel: loginModel??this.loginModel
     );
   }
 
@@ -30,5 +34,6 @@ class LoginState extends Equatable {
         message,
         status,
         isObscureText,
+        loginModel,
       ];
 }

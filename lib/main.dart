@@ -20,7 +20,6 @@ final GlobalKey<NavigatorState> navState = GlobalKey<NavigatorState>();
 
 void main(main) {
   //runApp(const MyApp());
-  WidgetsFlutterBinding.ensureInitialized();
 
   configLoading();
   setup();
@@ -71,10 +70,7 @@ class MyAppState extends State<MyApp> {
                 debugShowCheckedModeBanner: false,
                 navigatorKey: navState,
                 themeMode: ThemeMode.light,
-                title: "Water Works",
-                // initialRoute: routeConnectDevice,
-                initialRoute: routeSplash,
-                // initialRoute: routeDashboard,
+                initialRoute: routeLogin,
                 onGenerateRoute: Routes.onGenerateRoute,
                 showPerformanceOverlay: false,
                 scrollBehavior: const ScrollBehavior().copyWith(scrollbars: false),
