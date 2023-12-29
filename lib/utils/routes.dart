@@ -30,10 +30,12 @@ class Routes {
                   child: HomeScreen(),
                 ));
       case routeDetailPage:
+       final arg = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             settings: settings,
             builder: (context) => BlocProvider(
-                  create: (create) => DetailpageBloc(),
+                  create: (create) =>
+                      DetailpageBloc()..add(DetailPageInitEvent(arg)),
                   child: DetailpageView(),
                 ));
     }

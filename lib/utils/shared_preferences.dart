@@ -1,32 +1,58 @@
-import 'package:get_storage/get_storage.dart';
-import 'package:task/common/constants/storage_key_constants.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task/reponseModel/login_model.dart';
 
-class SharePref {
-  static late final GetStorage pref;
+class MySharedPref {
+  static MySharedPref? classInstance;
+  static SharedPreferences? preferences;
 
-  SharePref init() {
-    GetStorage.init(StorageKeyConstants.cDataStore);
-    pref = GetStorage(StorageKeyConstants.cDataStore);
-    return this;
+  static Future<MySharedPref> getInstance() async {
+    classInstance ??= MySharedPref();
+    preferences ??= await SharedPreferences.getInstance();
+    return classInstance!;
   }
 
-  void saveIsLogin(bool isLogin) {
-    pref.write(StorageKeyConstants.cKeyIsLogin, isLogin);
+  Future<void> setString(String key, String content) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("Value Set ::::::$content");
+    prefs.setString(key, content);
   }
 
-   void saveToken(String token) {
-    pref.write(StorageKeyConstants.cKeyIsToken, token);
+  Future<void> setBool(String key, bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("Value set ::::::$value");
+    prefs.setBool(key, value);
   }
 
-  String getToken() {
-    return pref.read(StorageKeyConstants.cKeyIsToken);
+  getStringValue(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return String
+    String stringValue = prefs.getString(key) ?? "";
+    print("Value set ::::::$stringValue");
+    return stringValue;
   }
 
-  bool getIsLogin() {
-    if (pref.read(StorageKeyConstants.cKeyIsLogin) != null) {
-      return pref.read(StorageKeyConstants.cKeyIsLogin);
-    } else {
-      return false;
+  getBoolValue(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return String
+    bool? boolVal = prefs.getBool(key);
+    print("Value get ::::::$boolVal");
+    return boolVal;
+  }
+
+
+  setLoginModel(model, String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(key, json.encode(model.toJson()));
+  }
+
+  Future<LoginModel?> getLoginModel(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var myJson = prefs.getString(key);
+    if (myJson == null) {
+      return null;
     }
+    return LoginModel.fromJson(json.decode(myJson));
   }
 }

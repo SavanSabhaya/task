@@ -9,11 +9,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:task/common/constants/color_constants.dart';
+import 'package:task/common/constants/storage_key_constants.dart';
 import 'package:task/common/widgets/wrap_screen_utils.dart';
+import 'package:task/reponseModel/login_model.dart';
 import 'package:task/utils/cubit/ConnectionCheckerCubit.dart';
 import 'package:task/utils/cubit/internet_cubit.dart';
-import 'package:task/utils/repository_manager.dart';
 import 'package:task/utils/routes.dart';
+import 'package:task/utils/shared_preferences.dart';
 
 final sl = GetIt.instance;
 final GlobalKey<NavigatorState> navState = GlobalKey<NavigatorState>();
@@ -24,7 +26,6 @@ void main(main) {
   runApp(MyApp());
 
   configLoading();
-  setup();
   Bloc.observer = AppBlocObserver();
 }
 
@@ -36,6 +37,22 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
+  var preferences = MySharedPref();
+  LoginModel? loginModel;
+
+  @override
+  void initState() {
+    super.initState();
+    ischeckLogin();
+  }
+
+ void ischeckLogin() async {
+  var result = await preferences.getLoginModel(StorageKeyConstants.cKeyIsToken);
+  setState(() {
+    loginModel = result;
+  });
+}
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
@@ -73,7 +90,7 @@ class MyAppState extends State<MyApp> {
                 debugShowCheckedModeBanner: false,
                 navigatorKey: navState,
                 themeMode: ThemeMode.light,
-                initialRoute: routeLogin,
+                initialRoute: loginModel == null ? routeLogin : routeHome,
                 onGenerateRoute: Routes.onGenerateRoute,
                 showPerformanceOverlay: false,
                 scrollBehavior:
@@ -96,6 +113,8 @@ class MyAppState extends State<MyApp> {
 
 void configLoading() {
   EasyLoading.instance
+    ..indicatorWidget =
+        CircularProgressIndicator(color: ColorConstants.primaryColor)
     ..displayDuration = const Duration(milliseconds: 3000)
     ..indicatorType = EasyLoadingIndicatorType.circle
     ..loadingStyle = EasyLoadingStyle.custom

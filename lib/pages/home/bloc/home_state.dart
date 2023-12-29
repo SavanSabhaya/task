@@ -1,6 +1,6 @@
 part of 'home_bloc.dart';
 
-class HomeState extends Equatable{
+class HomeState {
   const HomeState({
     this.message = '',
     this.status = LoadStatus.initial,this.productListModel,

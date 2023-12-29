@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:task/common/constants/color_constants.dart';
 import 'package:task/common/constants/font_constants.dart';
 import 'package:task/common/constants/image_constants.dart';
@@ -29,20 +30,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   FocusNode passwordFocusNode = FocusNode();
 
-  void login() {
-    // Implement your login logic here
-    print('Login button pressed');
-  }
-
-  void forgotPassword() {
-    // Implement forgot password functionality
-    print('Forgot password pressed');
-  }
+ 
 
   @override
   void initState() {
-    emailController.text = "bhavik.patel@iottive.com";
-    passwordController.text = 'Bhavik123#';
+    // emailController.text = "bhavik.patel@iottive.com";
+    // passwordController.text = 'Bhavik123#';
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -52,8 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    // Reset the device orientation when the page is disposed
-    SystemChrome.setPreferredOrientations([
+     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
       DeviceOrientation.landscapeLeft,
@@ -69,10 +61,16 @@ class _LoginScreenState extends State<LoginScreen> {
       listener: (context, state) {
         if (state.status == LoadStatus.validationError) {
           showErrorSnackBar(context, state.message);
+           EasyLoading.dismiss();
         } else if (state.status == LoadStatus.success) {
           showSuccessSnackBar(context, state.message);
-          Navigator.pushNamed(context, routeHome);
-          logger.d('get reponse==>${state.loginModel?.authToken}');
+          Navigator.pushNamedAndRemoveUntil(context, routeHome,(route) => true,);
+           EasyLoading.dismiss();
+        }else if(state.status == LoadStatus.failure){
+           showErrorSnackBar(context, state.message);
+           EasyLoading.dismiss();
+        }else if(state.status == LoadStatus.loading){
+          EasyLoading.show();
         }
       },
       builder: (context, state) {
@@ -94,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   SizedBox(
-                    height: 150,
+                    height: 100,
                   ),
                   Text(
                     'Log in',
@@ -126,16 +124,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         labelText: 'Enter password',
                         controller: passwordController,
                         prefixIcon: Icon(Icons.password),
-                        suffixIcon: state.isObscureText
-                            ? Icon(Icons.remove_red_eye_outlined)
-                            : Icon(Icons.remove_red_eye_outlined),
+                        suffixIcon: GestureDetector(
+                          child: state.isObscureText
+                              ? Icon(Icons.remove_red_eye_outlined)
+                              : Icon(Icons.remove_red_eye_outlined),
+                          onTap: () {
+                            context.read<LoginBloc>().add(
+                                LoginPasswordChangedEvent(
+                                    !state.isObscureText));
+                          },
+                        ),
+                        isObscureText: state.isObscureText,
                       ),
                       SizedBox(height: 40.0),
                       ElevatedButton(
                         onPressed: () {
-                          // context.read<LoginBloc>().add(ValidateEvent(
-                          //     emailController.text, passwordController.text));
-                          Navigator.pushNamed(context, routeHome);
+                          context.read<LoginBloc>().add(ValidateEvent(
+                              emailController.text, passwordController.text));
                         },
                         style: ElevatedButton.styleFrom(
                           primary: ColorConstants.primaryColor,

@@ -41,12 +41,13 @@ dependencies:
   logger: ^1.1.0
   connectivity_plus:
   flutter_bloc: ^8.1.1
-  equatable: ^2.0.3
-  injectable: ^2.1.0
+  # equatable: ^2.0.3
+  # injectable: ^2.1.0
   internet_connection_checker: ^1.0.0+1
   dartz:
   #Storage
   get_storage: ^2.1.1
+  shared_preferences: ^2.2.2
   top_snackbar_flutter: ^3.0.0+1
   convex_bottom_bar: ^3.2.0
   http: ^0.13.6

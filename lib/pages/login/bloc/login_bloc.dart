@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task/api_service/api_constant.dart';
 import 'package:task/api_service/repository.dart';
+import 'package:task/common/constants/storage_key_constants.dart';
 import 'package:task/common/constants/string_constants.dart';
 import 'package:task/common/enums/loading_status.dart';
 import 'package:task/reponseModel/login_model.dart';
@@ -53,8 +53,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Future<Map<String, dynamic>> loginApi(ValidateEvent event) async {
+    emit(state.copyWith(status: LoadStatus.loading));
     final apiUrl = Uri.parse(ApiConstant.baseUrl +
-        ApiConstant.login); // Replace 'upload' with your actual API endpoint
+        ApiConstant.login); 
     logger.d('url ${apiUrl}');
 
     var request = http.MultipartRequest('POST', apiUrl)
@@ -66,12 +67,26 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> data =
           jsonDecode(await response.stream.bytesToString());
+      logger.d(' get response body ${data}');
+
       LoginModel loginModel = LoginModel.fromJson(data);
-      // SharePref().saveToken(loginModel.authToken.toString());
-      logger.d(' get token${loginModel.authToken}');
-      emit(state.copyWith(status: LoadStatus.success, loginModel: loginModel));
+      if (loginModel.success == true) {
+        var preferences = MySharedPref();
+        await preferences.setLoginModel(
+            loginModel, StorageKeyConstants.cKeyIsToken);
+        logger.d(' get token${loginModel.authToken}');
+        emit(state.copyWith(
+            status: LoadStatus.success,
+            loginModel: loginModel,
+            message: 'Log in successfully'));
+      } else {
+        emit(state.copyWith(
+            status: LoadStatus.failure, message: 'Something went wrong...!'));
+      }
       return data;
     } else {
+      emit(state.copyWith(
+          status: LoadStatus.failure, message: 'Something went wrong...!'));
       throw Exception('Failed to upload data');
     }
   }
