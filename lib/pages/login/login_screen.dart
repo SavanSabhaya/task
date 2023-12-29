@@ -30,8 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   FocusNode passwordFocusNode = FocusNode();
 
- 
-
   @override
   void initState() {
     // emailController.text = "bhavik.patel@iottive.com";
@@ -45,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-     SystemChrome.setPreferredOrientations([
+    SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
       DeviceOrientation.landscapeLeft,
@@ -61,15 +59,19 @@ class _LoginScreenState extends State<LoginScreen> {
       listener: (context, state) {
         if (state.status == LoadStatus.validationError) {
           showErrorSnackBar(context, state.message);
-           EasyLoading.dismiss();
+          EasyLoading.dismiss();
         } else if (state.status == LoadStatus.success) {
           showSuccessSnackBar(context, state.message);
-          Navigator.pushNamedAndRemoveUntil(context, routeHome,(route) => true,);
-           EasyLoading.dismiss();
-        }else if(state.status == LoadStatus.failure){
-           showErrorSnackBar(context, state.message);
-           EasyLoading.dismiss();
-        }else if(state.status == LoadStatus.loading){
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            routeHome,
+            (route) => false,
+          );
+          EasyLoading.dismiss();
+        } else if (state.status == LoadStatus.failure) {
+          showErrorSnackBar(context, state.message);
+          EasyLoading.dismiss();
+        } else if (state.status == LoadStatus.loading) {
           EasyLoading.show();
         }
       },
@@ -102,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: ColorConstants.primaryColor),
                   ),
                   Text(
-                    'Enter your login detail',
+                    'Enter your login details',
                     style: TextStyle(
                         fontSize: FontConstants.font_16,
                         color: const Color.fromARGB(255, 106, 63, 63)),
@@ -126,8 +128,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         prefixIcon: Icon(Icons.password),
                         suffixIcon: GestureDetector(
                           child: state.isObscureText
-                              ? Icon(Icons.remove_red_eye_outlined)
-                              : Icon(Icons.remove_red_eye_outlined),
+                              ? const Icon(Icons.visibility_off_outlined)
+                              : const Icon(Icons.remove_red_eye_outlined),
                           onTap: () {
                             context.read<LoginBloc>().add(
                                 LoginPasswordChangedEvent(

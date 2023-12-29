@@ -4,42 +4,45 @@
 
 import 'dart:convert';
 
-LoginModel loginModelFromJson(String str) => LoginModel.fromJson(json.decode(str));
+LoginModel loginModelFromJson(String str) =>
+    LoginModel.fromJson(json.decode(str));
 
 String loginModelToJson(LoginModel data) => json.encode(data.toJson());
 
 class LoginModel {
-    bool? success;
-    int? userId;
-    String? firstName;
-    String? lastName;
-    String? primaryEmail;
-    String? profileImageUrl;
-    String? authToken;
-    String? mobileNumber;
-    int? rewardPoint;
-    String? aliasId;
-    String? saferPayToken;
-    dynamic saferPayCardDetails;
-    String? birthDate;
+  bool? success;
+  int? userId;
+  String? firstName;
+  String? lastName;
+  String? primaryEmail;
+  String? profileImageUrl;
+  String? authToken;
+  String? mobileNumber;
+  int? rewardPoint;
+  String? aliasId;
+  String? saferPayToken;
+  dynamic saferPayCardDetails;
+  String? birthDate;
+  String? message;
 
-    LoginModel({
-        this.success,
-        this.userId,
-        this.firstName,
-        this.lastName,
-        this.primaryEmail,
-        this.profileImageUrl,
-        this.authToken,
-        this.mobileNumber,
-        this.rewardPoint,
-        this.aliasId,
-        this.saferPayToken,
-        this.saferPayCardDetails,
-        this.birthDate,
-    });
+  LoginModel({
+    this.success,
+    this.userId,
+    this.firstName,
+    this.lastName,
+    this.primaryEmail,
+    this.profileImageUrl,
+    this.authToken,
+    this.mobileNumber,
+    this.rewardPoint,
+    this.aliasId,
+    this.saferPayToken,
+    this.saferPayCardDetails,
+    this.birthDate,
+    this.message,
+  });
 
-    factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
+  factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
         success: json["success"],
         userId: json["userId"],
         firstName: json["firstName"],
@@ -53,9 +56,10 @@ class LoginModel {
         saferPayToken: json["saferPayToken"],
         saferPayCardDetails: json["saferPayCardDetails"],
         birthDate: json["birthDate"],
-    );
+        message: json["message"],
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "success": success,
         "userId": userId,
         "firstName": firstName,
@@ -69,5 +73,6 @@ class LoginModel {
         "saferPayToken": saferPayToken,
         "saferPayCardDetails": saferPayCardDetails,
         "birthDate": birthDate,
-    };
+        "message": message,
+      };
 }

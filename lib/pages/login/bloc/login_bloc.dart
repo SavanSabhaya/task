@@ -54,8 +54,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Future<Map<String, dynamic>> loginApi(ValidateEvent event) async {
     emit(state.copyWith(status: LoadStatus.loading));
-    final apiUrl = Uri.parse(ApiConstant.baseUrl +
-        ApiConstant.login); 
+    final apiUrl = Uri.parse(ApiConstant.baseUrl + ApiConstant.login);
     logger.d('url ${apiUrl}');
 
     var request = http.MultipartRequest('POST', apiUrl)
@@ -81,7 +80,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             message: 'Log in successfully'));
       } else {
         emit(state.copyWith(
-            status: LoadStatus.failure, message: 'Something went wrong...!'));
+            status: LoadStatus.failure, message: loginModel.message));
       }
       return data;
     } else {
